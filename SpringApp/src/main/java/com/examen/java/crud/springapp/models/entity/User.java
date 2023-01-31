@@ -1,5 +1,6 @@
 package com.examen.java.crud.springapp.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -29,14 +30,19 @@ public class User {
     @Column(name = "tx_fullName",length = 64,nullable = true)
     private String tx_fullName;
 
-    @Column(name = "tx_avatar",length = 128,nullable = true)
-    private String tx_avatar;
+    @Lob
+    @JsonIgnore
+    @Column(name = "tx_avatar")
+    private byte[] tx_avatar;
 
+    public Integer getAvatarHashCode() {
+        return (this.tx_avatar != null) ? this.tx_avatar.hashCode() : null;
+    }
 
     public User() {
     }
 
-    public User(Integer id_user, String tx_uid, String tx_user, String tx_email, String tx_pass, String tx_rol, String tx_fullname, String tx_avatar) {
+    public User(Integer id_user, String tx_uid, String tx_user, String tx_email, String tx_pass, String tx_rol, String tx_fullname, byte[] tx_avatar) {
         this.id_user = id_user;
         this.tx_uid = tx_uid;
         this.tx_user = tx_user;
@@ -103,11 +109,12 @@ public class User {
         this.tx_fullName = tx_fullName;
     }
 
-    public String getTx_avatar() {
+
+    public byte[] getTx_avatar() {
         return tx_avatar;
     }
 
-    public void setTx_avatar(String tx_avatar) {
+    public void setTx_avatar(byte[] tx_avatar) {
         this.tx_avatar = tx_avatar;
     }
 }
